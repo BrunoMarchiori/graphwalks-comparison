@@ -2,7 +2,7 @@ import random
 
 class GeneticSolver:
     def __init__(self, graph, operation, target_node=None, depth=None,
-                 population_size=50, generations=100, mutation_rate=0.1):
+                 population_size=100, generations=100, mutation_rate=0.3):
         self.graph = graph  # dicionário de adjacência
         self.operation = operation  # 'bfs' ou 'parents'
         self.target_node = target_node
@@ -15,15 +15,13 @@ class GeneticSolver:
         population = []
         available_nodes = list(self.graph.keys())
         if not available_nodes:
-            return population  # retorna população vazia se o grafo for vazio
+            return population
+
         for _ in range(self.population_size):
-            max_k = len(available_nodes)
-            if self.operation == 'bfs':
-                k = random.randint(1, min(5, max_k))
-            elif self.operation == 'parents':
-                k = random.randint(1, min(3, max_k))
+            k = random.randint(1, len(available_nodes))
             individual = random.sample(available_nodes, k=k)
             population.append(individual)
+
         return population
 
     def fitness(self, individual):
