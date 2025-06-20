@@ -1,4 +1,5 @@
 import random
+import matplotlib.pyplot as plt
 
 class GeneticSolver:
     def __init__(self, graph, operation, target_node=None, depth=None,
@@ -71,13 +72,20 @@ class GeneticSolver:
 
     def evolve(self):
         population = self.initialize_population()
+        historico_fitness = []
         if not population:
             print("Erro: População inicial está vazia.")
             return []
 
-        for _ in range(self.generations):
+        for gen in range(self.generations):
             scored = [(ind, self.fitness(ind)) for ind in population]
             scored.sort(key=lambda x: x[1], reverse=True)
+
+            media = sum(score for _, score in scored) / len(scored)
+            historico_fitness.append(media)
+
+
+
             population = [ind for ind, _ in scored[:max(2, self.population_size // 2)]]
 
             new_population = population.copy()
@@ -92,4 +100,12 @@ class GeneticSolver:
             population = new_population
 
         best = max(population, key=self.fitness)
+
+        plt.plot(range(1, self.generations + 1), historico_fitness)
+        plt.xlabel("Geração")
+        plt.ylabel("F1 médio")
+        plt.title("Progresso Evolutivo")
+        plt.grid(True)
+        plt.show()
+
         return best
