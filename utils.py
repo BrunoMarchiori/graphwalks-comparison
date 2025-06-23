@@ -28,8 +28,11 @@ def construir_grafo(texto_arestas):
 def visualizar_grafo_completo(grafo, titulo="Visualização do Grafo Completo"):
     G = nx.DiGraph()
     for origem, destinos in grafo.items():
+        print(origem, destinos)
         for destino in destinos:
+            print(destino)
             G.add_edge(origem, destino)
+        print("\n")
 
     pos = nx.spring_layout(G, seed=42)
     plt.figure(figsize=(14, 8))
