@@ -28,15 +28,52 @@ def construir_grafo(texto_arestas):
 def visualizar_grafo_completo(grafo, titulo="Visualização do Grafo Completo"):
     G = nx.DiGraph()
     for origem, destinos in grafo.items():
-        print(origem, destinos)
         for destino in destinos:
-            print(destino)
             G.add_edge(origem, destino)
-        print("\n")
 
     pos = nx.spring_layout(G, seed=42)
     plt.figure(figsize=(14, 8))
     nx.draw(G, pos, with_labels=True, arrows=True, node_color="lightgreen", edge_color="gray", font_size=8)
+    plt.title(titulo)
+    plt.tight_layout()
+    plt.show()
+
+def desenhar_subgrafo_colorido(individuo, grafo, resposta_correta, titulo="Subgrafo com origem destacada"):
+    import networkx as nx
+    import matplotlib.pyplot as plt
+
+    G = nx.DiGraph()
+    
+    for origem in individuo:
+        for destino in grafo.get(origem, []):
+            G.add_edge(origem, destino)
+
+    pos = nx.spring_layout(G, seed=42)
+
+    origem_inicial = individuo[0] if individuo else None
+    acertos = set(individuo) & set(resposta_correta)
+    erros = set(individuo) - acertos
+
+    cores_nos = []
+    for node in G.nodes():
+        if node == origem_inicial:
+            cores_nos.append("royalblue")
+        elif node in acertos:
+            cores_nos.append("limegreen")
+        elif node in erros:
+            cores_nos.append("salmon")
+        else:
+            cores_nos.append("lightgray")
+
+    plt.figure(figsize=(12, 7))
+    nx.draw(G, pos,
+            with_labels=True,
+            arrows=True,
+            node_color=cores_nos,
+            edge_color="gray",
+            font_size=8,
+            node_size=1300)
+
     plt.title(titulo)
     plt.tight_layout()
     plt.show()
