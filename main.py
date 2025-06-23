@@ -15,6 +15,7 @@ graph = {
     "d3d9446802": ["8f14e45fce", "d3d9446802", "45c48cce2e", "e4da3b7fbb"]
 }
 
+utga.visualizar_grafo_completo(graph)
 
 solver = gs.GeneticSolver(
     graph=graph,
@@ -39,6 +40,8 @@ graph = {
     "c9f0f895fb": ["c81e728d9d", "8f14e45fce", "eccbc87e4b"]
 }
 
+utga.visualizar_grafo_completo(graph)
+
 solver = gs.GeneticSolver(
     graph=graph,
     operation="parents",
@@ -50,7 +53,8 @@ result = solver.evolve()
 print("Final Answer:", result)
 utga.desenhar_subgrafo(result, graph, titulo="Visualização do Melhor Indivíduo")
 
-arestas = """cfcd208495 -> 45c48cce2e
+arestas = """
+    cfcd208495 -> 45c48cce2e
     c4ca4238a0 -> c74d97b01e
     c81e728d9d -> 1c383cd30b
     eccbc87e4b -> d645920e39
@@ -95,16 +99,17 @@ arestas = """cfcd208495 -> 45c48cce2e
     a1d0c6e83f -> 182be0c5cd
     17e62166fc -> 182be0c5cd
     f7177163c8 -> c16a5320fa
-    6c8349cc72 -> 17e62166fc"""
+    6c8349cc72 -> 17e62166fc
+    """
 
 graph = utga.construir_grafo(arestas)
-
+utga.visualizar_grafo_completo(graph)
 
 solver = gs.GeneticSolver(
     graph=graph,
     operation="parents",
     target_node="3416a75f4c",
-    generations=40,
+    generations=1000,
 )
 
 result = solver.evolve()

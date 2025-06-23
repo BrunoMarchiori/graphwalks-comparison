@@ -100,12 +100,12 @@ class GeneticSolver:
             population = new_population
 
         best = max(population, key=self.fitness)
-
         plt.plot(range(1, self.generations + 1), historico_fitness)
         plt.xlabel("Geração")
         plt.ylabel("F1 médio")
         plt.title("Progresso Evolutivo")
         plt.grid(True)
         plt.show()
-
+        if self.fitness(best) == 0:
+            return []
         return best

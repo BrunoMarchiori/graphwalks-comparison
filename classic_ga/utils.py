@@ -13,12 +13,10 @@ def desenhar_subgrafo(individuo, grafo, titulo="Subgrafo do indivíduo"):
     plt.title(titulo)
     plt.show()
 
-def construir_grafo(arestas):
-    """
-    Constrói um dicionário de adjacência a partir de uma lista de arestas do tipo 'origem -> destino'.
-    """
+def construir_grafo(texto_arestas):
     grafo = {}
-    for linha in arestas:
+    linhas = texto_arestas.strip().splitlines()
+    for linha in linhas:
         if "->" not in linha:
             continue
         origem, destino = map(str.strip, linha.split("->"))
@@ -26,3 +24,16 @@ def construir_grafo(arestas):
             grafo[origem] = []
         grafo[origem].append(destino)
     return grafo
+
+def visualizar_grafo_completo(grafo, titulo="Visualização do Grafo Completo"):
+    G = nx.DiGraph()
+    for origem, destinos in grafo.items():
+        for destino in destinos:
+            G.add_edge(origem, destino)
+
+    pos = nx.spring_layout(G, seed=42)
+    plt.figure(figsize=(14, 8))
+    nx.draw(G, pos, with_labels=True, arrows=True, node_color="lightgreen", edge_color="gray", font_size=8)
+    plt.title(titulo)
+    plt.tight_layout()
+    plt.show()
