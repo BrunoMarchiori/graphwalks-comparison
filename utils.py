@@ -1,6 +1,30 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 
+
+def extrair_prompt(prompt):
+    
+    _,__, separado = prompt.split("The graph has the following edges:")
+    comEspaco, task = separado.split("Operation:")
+    arestas = comEspaco.strip()
+    parts = task.split("You should immediately return")[0].strip()
+
+
+    if parts.startswith("Find"):
+        
+        node = parts.split(".")[0]
+        return arestas, node.split(" ")[-1], 0, None
+
+    else:
+    
+        node, depth_part = parts.split(" with depth ")
+        
+        depth = int(depth_part.split(".")[0])
+
+        return arestas, node.split(" ")[-1], 1, depth
+    
+
+
 def desenhar_subgrafo(individuo, grafo, titulo="Subgrafo do indivíduo"):
     G = nx.DiGraph()
     for origem in individuo:

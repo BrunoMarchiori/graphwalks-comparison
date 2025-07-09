@@ -32,8 +32,9 @@ class GeneticSolver:
             expected = self.parents(self.target_node)
         overlap = set(individual) & set(expected)
         precision = len(overlap) / len(individual) if individual else 0
-        recall = len(overlap) / len(expected) if expected else 0
+        recall = (len(overlap) / len(expected)) ** 0.25 if expected else 0
         f1 = 2 * precision * recall / (precision + recall) if precision + recall else 0
+        #f1 = (0.5 * precision) + (0.5 * recall)
         return f1
 
     def bfs(self, start, depth):

@@ -1,5 +1,42 @@
 import classic_ga.genetic_solver as gs
 import utils as ut
+from datasets import load_dataset, Dataset, DatasetDict
+
+
+ds = load_dataset("openai/graphwalks")
+
+instancia = ds['train'][500 ]['prompt']
+arestas, alvo, operacao, profundidade = ut.extrair_prompt(instancia)
+
+
+
+graph = ut.construir_grafo(arestas)
+ut.visualizar_grafo_completo(graph)
+
+if (operacao == 0):
+    solver = gs.GeneticSolver(
+        graph=graph,
+        operation="parents",
+        target_node=alvo,
+        generations=1000,
+    )
+
+else:
+    print("AAAAAAAAAAAAAAAAAAAAAA")
+    solver = gs.GeneticSolver(
+    graph=graph,
+    operation="bfs",
+    target_node= alvo,
+    depth=profundidade,
+    generations=1000
+)
+
+
+result = solver.evolve()
+print("Final Answer:", result)
+
+'''
+
 
 graph = {
     "cfcd208495": ["cfcd208495", "1679091c5a", "c81e728d9d", "c4ca4238a0"],
@@ -292,3 +329,4 @@ resposta_correta = solver.bfs(solver.target_node, solver.depth)
 print("Final Answer:", result)
 ut.desenhar_subgrafo(result, graph, titulo="Visualização do Melhor Indivíduo")
 ut.desenhar_subgrafo_colorido(result, graph, resposta_correta, titulo="Visualização do Melhor Indivíduo com Feedback")
+'''
