@@ -1,5 +1,6 @@
 import random
 import matplotlib.pyplot as plt
+import math
 
 class GeneticSolver:
     def __init__(self, graph, operation, target_node=None, depth=None,
@@ -31,10 +32,10 @@ class GeneticSolver:
         elif self.operation == 'parents':
             expected = self.parents(self.target_node)
         overlap = set(individual) & set(expected)
-        precision = len(overlap) / len(individual) if individual else 0
-        recall = (len(overlap) / len(expected)) ** 0.25 if expected else 0
+        precision = math.exp(-2 * (1 - (len(overlap) / len(individual)))) if individual else 0
+        recall = math.exp(-2 * (1 - len(overlap) / len(expected))) if expected else 0
         f1 = 2 * precision * recall / (precision + recall) if precision + recall else 0
-        #f1 = (0.5 * precision) + (0.5 * recall)
+        
         return f1
 
     def bfs(self, start, depth):

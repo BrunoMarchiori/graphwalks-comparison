@@ -23,7 +23,13 @@ def extrair_prompt(prompt):
 
         return arestas, node.split(" ")[-1], 1, depth
     
+def extrair_gabarito(gabarito):
+    
+    oficial = []
+    for ins in gabarito:
+        oficial.append(str(ins))
 
+    return oficial 
 
 def desenhar_subgrafo(individuo, grafo, titulo="Subgrafo do indivíduo"):
     G = nx.DiGraph()
