@@ -93,10 +93,8 @@ class GeneticSolver:
             # Salva a média do fitness da população atual
             media = sum(fitness_fn(ind) for ind in population) / len(population)
             self.historico_fitness_medio.append(media)
-
-            if fitness_fn(population[0]) == target_fitness:
-                break
-
+    
+           
             next_gen = population[:5]  # elitismo
             while len(next_gen) < self.population_size:
                 p1, p2 = random.sample(population[:20], 2)
@@ -107,6 +105,7 @@ class GeneticSolver:
 
 
         plt.plot(range(1, self.generations + 1), self.historico_fitness_medio)
+        plt.axhline(y=target_fitness, color='red', linestyle='--', label=f'target_fitness = {target_fitness}')
         plt.xlabel("Geração")
         plt.ylabel("F1 médio")
         plt.title("Progresso Evolutivo")
